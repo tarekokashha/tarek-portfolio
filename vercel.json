@@ -27,19 +27,19 @@
       ]
     },
     {
-      "source": "/(.*).(jpg|png|svg|webp|ico)",
+      "source": "/(.*)\\.(jpg|jpeg|png|svg|webp|ico)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     },
     {
-      "source": "/(styles.css|app.js)",
+      "source": "/(styles\\.css|app\\.js)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
       ]
     },
     {
-      "source": "/Tarek-Okasha-CV.pdf",
+      "source": "/Tarek-Okasha-CV\\.pdf",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400" },
         { "key": "Content-Disposition", "value": "inline; filename=\"Tarek-Okasha-CV.pdf\"" }

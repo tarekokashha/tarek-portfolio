@@ -59,7 +59,8 @@ async function build() {
   const html = mod.renderPage();
   await fs.writeFile(path.join(DIST, 'index.html'), html, 'utf8');
 
-  // sitemap.xml is generated so lastmod never drifts from the deploy.
+  // sitemap.xml and robots.txt are generated from site.url, so the canonical
+  // host is declared in exactly one place and lastmod tracks the deploy.
   const today = new Date().toISOString().slice(0, 10);
   const { site } = await import(
     pathToFileURL(path.join(SRC, 'data.mjs')).href + '?t=' + Date.now()
@@ -76,6 +77,11 @@ async function build() {
   </url>
 </urlset>
 `,
+    'utf8'
+  );
+  await fs.writeFile(
+    path.join(DIST, 'robots.txt'),
+    `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`,
     'utf8'
   );
 

@@ -2,7 +2,7 @@
 
 Portfolio of **Tarek Okasha** — Robotics & Automation Engineer.
 
-**Live:** https://tarek-portfolio.vercel.app
+**Live:** https://tarek-okasha.vercel.app
 
 A single-page site built as static HTML. No framework, no runtime dependencies,
 no client-side rendering — the markup ships complete and the JavaScript only

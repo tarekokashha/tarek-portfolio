@@ -11,7 +11,7 @@ export const site = {
     'Robotics and automation engineer in Cairo. Six-axis industrial robots, AI automations, full-stack platforms and brand systems — built to run without supervision.',
   ogDescription:
     'Six-axis industrial robots, AI automations, full-stack platforms and brand systems — engineered with the discipline of robotics.',
-  url: 'https://tarek-portfolio.vercel.app',
+  url: 'https://tarek-okasha.vercel.app',
   locale: 'en',
   email: 'tarekokasha53@gmail.com',
   phone: '+20 155 157 0089',

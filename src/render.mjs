@@ -169,7 +169,12 @@ const heroSection = () => `<section class="hero" id="top">
       <div class="stage__corner stage__corner--tr"></div>
       <div class="stage__corner stage__corner--bl"></div>
       <div class="stage__corner stage__corner--br"></div>
-      <div class="stage__label">UR5e · 6-DOF<br>MoveIt 2 / CCD solver<br><span class="stage__hint stage__hint--pointer">Move cursor · click to grip</span><span class="stage__hint stage__hint--touch">Drag to aim · tap to grip</span></div>
+      <div class="stage__label">
+        <span class="stage__line">UR5e · 6-DOF</span>
+        <span class="stage__line stage__line--spec">MoveIt 2 / CCD solver</span>
+        <span class="stage__line stage__hint stage__hint--pointer">Move cursor · click to grip</span>
+        <span class="stage__line stage__hint stage__hint--touch">Drag to aim · tap to grip</span>
+      </div>
       <div class="stage__telemetry" data-telemetry aria-hidden="true">J1 +000.0°
 J2 +000.0°
 J3 +000.0°
@@ -499,6 +504,9 @@ const contactSection = () => `<section class="contact" id="contact">
         <div class="contact-item__v contact-item__v--row">
           <a class="contact-item__mail" href="mailto:${esc(site.email)}">${esc(
   site.email
+).replace(
+  '@',
+  '<wbr>@'
 )}</a>
           <button class="copy" type="button" data-copy="${esc(
             site.email

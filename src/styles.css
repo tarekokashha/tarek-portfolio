@@ -715,6 +715,10 @@ button {
   color: var(--meta);
 }
 
+.stage__line {
+  display: block;
+}
+
 /* The hint has to match the input the visitor actually has. */
 .stage__hint--touch {
   display: none;
@@ -726,7 +730,7 @@ button {
   }
 
   .stage__hint--touch {
-    display: inline;
+    display: block;
   }
 }
 
@@ -1675,7 +1679,9 @@ button {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  word-break: break-all;
+  /* A <wbr> before the @ gives the address a clean break; anywhere is only
+     the fallback, so it never splits mid-domain the way break-all did. */
+  overflow-wrap: anywhere;
 }
 
 .copy {
@@ -2021,12 +2027,27 @@ button {
   }
 }
 
+/* ---- Tablet: hold every column, just shift the ratios toward the copy ----- */
+
 @media (max-width: 880px) {
-  .hero__grid,
-  .split,
-  .feature__grid,
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(16px, 3vw, 34px);
+  }
+
+  .split {
+    grid-template-columns: minmax(0, 0.3fr) minmax(0, 1fr);
+    gap: clamp(18px, 3.4vw, 44px);
+  }
+
+  .feature__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+    gap: clamp(20px, 3.4vw, 40px);
+  }
+
   .about__grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.66fr) minmax(0, 1fr);
+    gap: clamp(20px, 3.4vw, 44px);
   }
 
   .facts {
@@ -2043,21 +2064,59 @@ button {
   }
 
   .stage {
-    height: clamp(260px, 38vh, 340px);
+    height: clamp(240px, 34vh, 320px);
   }
 
   /* Portrait is 4:5 — unconstrained that is a screen and a half of face. */
   .figure__img {
     max-height: 62svh;
   }
+
+  .collection__grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
 }
 
-/* ---- Phone: one column, wider touch targets, no cramped two-up rows ------ */
+/* ---- The work row keeps its index rail; the outcome column folds under ---- */
+
+@media (max-width: 760px) {
+  .row__grid {
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .row__stats {
+    grid-column: 2 / -1;
+    margin-top: 4px;
+  }
+}
+
+/* ---- Phone: the two-up composition survives, the padding and type come
+        down to pay for it. Nothing here collapses to a single column. ------ */
 
 @media (max-width: 640px) {
-  .hero {
-    padding-top: calc(var(--nav-h) + clamp(28px, 6vh, 56px));
-    min-height: 0;
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .stage {
+    height: clamp(210px, 28vh, 260px);
+  }
+
+  .stage__label {
+    top: 10px;
+    left: 12px;
+    right: 10px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .stage__telemetry {
+    right: 10px;
+    bottom: 8px;
+    font-size: 9px;
+    letter-spacing: 0.06em;
   }
 
   .hero__actions {
@@ -2068,12 +2127,7 @@ button {
   .btn {
     flex: 1 1 100%;
     justify-content: center;
-    padding: 17px 24px;
-  }
-
-  .stage__label {
-    left: 16px;
-    right: 16px;
+    padding: 16px 22px;
   }
 
   .ticker {
@@ -2084,22 +2138,6 @@ button {
     gap: 24px;
     padding-right: 24px;
     font-size: 11px;
-  }
-
-  /* Index and year belong above the row, not in a 40px column beside it. */
-  .row__grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-  }
-
-  .row__idx {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-  }
-
-  .row__idx br {
-    display: none;
   }
 
   .row:hover {
@@ -2114,27 +2152,108 @@ button {
     padding-left: 0;
   }
 
-  .step {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 10px;
+  /* Four cards two-up at phone width only works if the box stops eating the
+     column: trim the padding and step the type down a notch. */
+  .cap {
+    padding: 20px 15px 26px;
+  }
+
+  .cap__n {
+    margin-bottom: 26px;
+  }
+
+  .cap__title {
+    font-size: clamp(16px, 4.4vw, 21px);
+    margin-bottom: 9px;
+  }
+
+  .cap__body {
+    margin-bottom: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .tag {
+    padding: 4px 8px;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+  }
+
+  .tag--wide {
+    padding: 4px 9px;
+  }
+
+  .stat {
+    padding: 20px 0 22px;
+  }
+
+  .stat__v {
+    font-size: clamp(26px, 7vw, 34px);
+  }
+
+  .stack__group {
+    padding: 18px 0 22px;
+  }
+
+  .stack__name {
+    margin-bottom: 13px;
+    font-size: 9.5px;
+  }
+
+  .stack__item {
+    font-size: 12.5px;
+  }
+
+  .contact-item {
+    padding: 20px 0 24px;
+  }
+
+  .contact-item__k {
+    margin-bottom: 10px;
+  }
+
+  .contact-item__v {
+    font-size: 15px;
+  }
+
+  .card {
+    padding: 20px 18px;
+  }
+
+  .card__head {
+    margin-bottom: 26px;
+  }
+
+  .feature {
+    padding: 20px 18px;
   }
 
   .feature__meta {
     gap: 6px 0;
     flex-direction: column;
   }
+
+  .step {
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 12px;
+  }
 }
 
+/* ---- Prose columns cannot take a second column below this ---------------- */
+
 @media (max-width: 560px) {
-  .contacts,
-  .stack__grid,
-  .stats,
-  .caps {
+  .split,
+  .feature__grid,
+  .about__grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .fact {
     padding-right: 10px;
+  }
+
+  .row__stats {
+    grid-column: 1 / -1;
   }
 
   /* Value over label — side by side these squeeze to two words a line. */
@@ -2149,11 +2268,11 @@ button {
   }
 
   .contact-item__v--row {
-    gap: 12px;
+    gap: 10px;
   }
 
   .contact-item__mail {
-    word-break: break-word;
+    font-size: 14px;
   }
 
   .footer__row {
@@ -2162,6 +2281,93 @@ button {
 
   .grid-wash {
     background-size: 48px 48px;
+  }
+}
+
+/* ---- Under ~480px the headline can no longer share a line with the arm.
+        It spans instead, and the arm keeps its place beside the actions. --- */
+
+@media (max-width: 479px) {
+  /* Lifts status, headline, lede and actions into the hero grid itself so
+     each can choose its own span. */
+  .hero__copy {
+    display: contents;
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+    align-items: start;
+    column-gap: 14px;
+    row-gap: 0;
+  }
+
+  .hero__status,
+  .hero__title {
+    grid-column: 1 / -1;
+  }
+
+  /* The lede is the block that can afford to narrow, so it is the one that
+     sits beside the arm. The actions stay full width for the thumb. */
+  .hero__lede {
+    grid-column: 1;
+    grid-row: 3;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .stage {
+    grid-column: 2;
+    grid-row: 3;
+    height: 100%;
+    min-height: 230px;
+    margin-top: clamp(22px, 3.4vh, 38px);
+  }
+
+  .hero__actions {
+    grid-column: 1 / -1;
+    grid-row: 4;
+  }
+
+  /* Too little panel left for four lines of annotation — keep the spec,
+     drop the interaction hint and the joint read-out. */
+  .stage__line--spec ~ .stage__line,
+  .stage__telemetry {
+    display: none;
+  }
+}
+
+/* ---- Under 360px a second column leaves the lede at four words a line ---- */
+
+@media (max-width: 359px) {
+  .hero__copy {
+    display: block;
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero__lede {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  /* .hero__copy is a block again, so the stage is the only grid child left —
+     its explicit column-2 placement would spawn an implicit second column. */
+  .stage {
+    grid-column: auto;
+    grid-row: auto;
+    height: 220px;
+    min-height: 0;
+    margin-top: clamp(22px, 3vh, 32px);
+  }
+
+  .facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fact {
+    padding-right: 0;
   }
 }
 
@@ -2206,15 +2412,6 @@ button {
   }
 }
 
-@media (max-width: 380px) {
-  .facts {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .fact {
-    padding-right: 0;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -98,10 +98,18 @@
   --sans: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --mono: 'Azeret Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
-  /* Rhythm */
-  --gutter: clamp(20px, 5vw, 88px);
+  /* Rhythm — the gutter never sits under a notch or a rounded corner. */
+  --gutter: max(
+    clamp(20px, 5vw, 88px),
+    env(safe-area-inset-left, 0px),
+    env(safe-area-inset-right, 0px)
+  );
   --shell: 1560px;
   --section-y: clamp(70px, 9vw, 140px);
+
+  /* Height of the fixed masthead. JS measures the real value and overwrites
+     this; the fallback keeps anchor offsets sane before the script runs. */
+  --nav-h: 68px;
 
   /* Motion */
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -124,6 +132,9 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: clip;
+  /* iOS inflates type in landscape without this. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -132,6 +143,24 @@ body {
   color: var(--ink);
   font-family: var(--sans);
   overflow-x: clip;
+}
+
+/* The masthead is fixed, so anchored jumps have to clear it. */
+[id] {
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+}
+
+/* No 300 ms tap delay, no double-tap zoom on controls. */
+a,
+button {
+  touch-action: manipulation;
+}
+
+/* When the menu is open the page behind it must not scroll or rubber-band. */
+html.is-locked,
+html.is-locked body {
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 h1,
@@ -298,7 +327,7 @@ button {
 .skip:focus {
   left: var(--gutter);
   top: 12px;
-  padding: 12px 20px;
+  padding: 15px 22px;
   background: var(--ink);
   color: var(--bone);
   border-radius: 100px;
@@ -358,6 +387,7 @@ button {
   justify-content: space-between;
   gap: 24px;
   padding: 18px var(--gutter);
+  padding-top: max(18px, env(safe-area-inset-top, 0px));
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   background: rgba(237, 233, 226, 0.72);
@@ -370,6 +400,10 @@ button {
   gap: 10px;
   flex: 0 0 auto;
   white-space: nowrap;
+  /* Padding rather than min-height, so the name and the tag keep their
+     shared baseline while the hit area reaches 44px. */
+  padding-block: 14px;
+  margin-block: -14px;
 }
 
 .masthead__name {
@@ -385,6 +419,12 @@ button {
 }
 
 .masthead__nav {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.masthead__links {
   display: flex;
   align-items: center;
   gap: clamp(16px, 2.4vw, 34px);
@@ -403,6 +443,13 @@ button {
   text-decoration-thickness: 1px;
 }
 
+/* Ordinal, arrow and the direct-contact block are mobile-panel furniture. */
+.masthead__link-n,
+.masthead__link-a,
+.masthead__foot {
+  display: none;
+}
+
 .masthead__cta {
   display: flex;
   align-items: center;
@@ -419,6 +466,56 @@ button {
 .masthead__cta:hover {
   background: var(--ink);
   color: var(--bone);
+}
+
+/* Burger — hidden until the nav no longer fits on one line. */
+
+.burger {
+  display: none;
+  align-items: center;
+  gap: 11px;
+  min-height: 44px;
+  margin-right: calc(var(--gutter) * -0.35);
+  padding: 12px calc(var(--gutter) * 0.35);
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: 500 11px/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.burger__box {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 12px;
+  flex: 0 0 auto;
+}
+
+.burger__bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--ink);
+  transition: transform 0.35s var(--ease), opacity 0.2s ease;
+}
+
+.burger__bar:nth-child(1) {
+  top: 0;
+}
+.burger__bar:nth-child(2) {
+  bottom: 0;
+}
+
+.is-menu .burger__bar:nth-child(1) {
+  transform: translateY(5.25px) rotate(45deg);
+}
+.is-menu .burger__bar:nth-child(2) {
+  transform: translateY(-5.25px) rotate(-45deg);
 }
 
 /* --------------------------------------------------------------------------
@@ -616,6 +713,21 @@ button {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--meta);
+}
+
+/* The hint has to match the input the visitor actually has. */
+.stage__hint--touch {
+  display: none;
+}
+
+@media (hover: none) {
+  .stage__hint--pointer {
+    display: none;
+  }
+
+  .stage__hint--touch {
+    display: inline;
+  }
 }
 
 .stage__telemetry {
@@ -1552,17 +1664,25 @@ button {
 .contact-item__v--row {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   gap: 8px 12px;
+  /* The 44px hit areas inside are taller than the type — pull the block back
+     so the row still reads as one line of text under its label. */
+  margin-block: -10px;
 }
 
 .contact-item__mail {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   word-break: break-all;
 }
 
 .copy {
+  position: relative;
   flex: 0 0 auto;
-  padding: 7px 12px;
+  min-height: 34px;
+  padding: 7px 14px;
   border: 1px solid rgba(14, 14, 15, 0.24);
   border-radius: 100px;
   background: none;
@@ -1572,6 +1692,13 @@ button {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+/* The pill stays small; the thumb target around it does not. */
+.copy::after {
+  content: '';
+  position: absolute;
+  inset: -6px -8px;
 }
 
 .copy:hover {
@@ -1666,11 +1793,19 @@ button {
   gap: 16px;
   margin-top: clamp(22px, 2.4vw, 34px);
   padding-top: 20px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   border-top: 1px solid var(--line-strong);
   font: 400 10.5px/1.6 var(--mono);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--meta);
+}
+
+/* Footer links are 10.5px type — pad them out to a real touch target. */
+.footer__row a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 /* --------------------------------------------------------------------------
@@ -1746,39 +1881,143 @@ button {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .masthead__links {
+    gap: clamp(14px, 2vw, 24px);
+  }
+}
+
+/* ---- Below 900px the inline nav becomes a burger and a full-height panel -- */
+
+@media (max-width: 900px) {
   .masthead {
-    padding-top: 4px;
-    padding-bottom: 4px;
-    gap: 14px;
+    padding-top: max(12px, env(safe-area-inset-top, 0px));
+    padding-bottom: 12px;
+    gap: 12px;
   }
 
+  .burger {
+    display: flex;
+  }
+
+  /* Absolute, not fixed: the masthead's backdrop-filter makes it the
+     containing block for fixed descendants, which would collapse the panel
+     to the height of the bar. Anchored to the bar it stays exact. */
   .masthead__nav {
-    flex: 1 1 auto;
-    min-width: 0;
-    overflow-x: auto;
-    overflow-y: hidden;
-    justify-content: flex-end;
-    gap: 20px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    /* Fade the trailing edge so an off-screen item reads as "scroll me",
-       not as a clipped layout. */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22px, #000 calc(100% - 22px), transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0, #000 22px, #000 calc(100% - 22px), transparent 100%);
-    scroll-padding-inline: 22px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: calc(100svh - var(--nav-h));
+    display: flex;
+    flex-direction: column;
+    /* The base rule centres the inline nav — the panel stretches instead. */
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 24px;
+    padding: clamp(24px, 6vh, 52px) var(--gutter)
+      calc(clamp(24px, 4vh, 40px) + env(safe-area-inset-bottom, 0px));
+    background: var(--bone);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    /* visibility keeps the closed panel out of the tab order. */
+    visibility: hidden;
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+    transition: opacity 0.3s var(--ease), transform 0.35s var(--ease),
+      visibility 0s linear 0.35s;
   }
 
-  .masthead__nav::-webkit-scrollbar {
-    display: none;
+  /* Opaque while open, so the blurred bar does not sample the page beneath
+     the panel and read as a seam across the top. */
+  .is-menu .masthead {
+    background: var(--bone);
   }
 
-  .masthead__nav > a {
+  .is-menu .masthead__nav {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.3s var(--ease), transform 0.35s var(--ease),
+      visibility 0s;
+  }
+
+  .masthead__links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .masthead__link {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: clamp(16px, 2.4vh, 22px) 0;
+    border-bottom: 1px solid var(--line);
+    font: 500 clamp(26px, 7vw, 40px) / 1 var(--sans);
+    letter-spacing: -0.035em;
+    text-transform: none;
+  }
+
+  .masthead__link.is-active {
+    color: var(--ac-ink);
+    text-decoration: none;
+  }
+
+  .masthead__link-n {
+    display: block;
     flex: 0 0 auto;
-    padding-block: 16px;
+    font: 400 10px/1 var(--mono);
+    letter-spacing: 0.16em;
+    color: var(--meta);
+  }
+
+  .masthead__link.is-active .masthead__link-n {
+    color: var(--ac-ink);
+  }
+
+  .masthead__link-t {
+    flex: 1 1 auto;
+  }
+
+  .masthead__link-a {
+    display: block;
+    flex: 0 0 auto;
+    font-size: 15px;
+    color: var(--meta);
   }
 
   .masthead__cta {
-    padding: 15px 16px;
+    justify-content: center;
+    margin-top: clamp(22px, 3.4vh, 34px);
+    padding: 18px 22px;
+    background: var(--ink);
+    color: var(--bone);
+    font-size: 12.5px;
+  }
+
+  .masthead__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 18px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font: 400 11px/1.5 var(--mono);
+    letter-spacing: 0.1em;
+    color: var(--meta);
+  }
+
+  .masthead__foot-k {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ac-ink);
+  }
+
+  /* The panel owns the screen — nothing fixed may float over it. */
+  .is-menu .progress,
+  .is-menu .cursor-chip {
+    opacity: 0;
   }
 }
 
@@ -1799,13 +2038,63 @@ button {
     padding-right: 14px;
   }
 
+  .split__label {
+    position: static;
+  }
+
+  .stage {
+    height: clamp(260px, 38vh, 340px);
+  }
+
+  /* Portrait is 4:5 — unconstrained that is a screen and a half of face. */
+  .figure__img {
+    max-height: 62svh;
+  }
+}
+
+/* ---- Phone: one column, wider touch targets, no cramped two-up rows ------ */
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: calc(var(--nav-h) + clamp(28px, 6vh, 56px));
+    min-height: 0;
+  }
+
+  .hero__actions {
+    gap: 10px;
+  }
+
+  /* Shrink-wrapped pills of different widths read as a mistake stacked up. */
+  .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+    padding: 17px 24px;
+  }
+
+  .stage__label {
+    left: 16px;
+    right: 16px;
+  }
+
+  .ticker {
+    padding: 11px 0;
+  }
+
+  .ticker__group {
+    gap: 24px;
+    padding-right: 24px;
+    font-size: 11px;
+  }
+
+  /* Index and year belong above the row, not in a 40px column beside it. */
   .row__grid {
-    grid-template-columns: 40px minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
   }
 
   .row__idx {
     display: flex;
+    align-items: baseline;
     gap: 10px;
   }
 
@@ -1813,37 +2102,112 @@ button {
     display: none;
   }
 
-  .row__stats {
-    grid-column: 2 / -1;
-    margin-top: 4px;
+  .row:hover {
+    padding-left: 0;
   }
 
-  .split__label {
-    position: static;
+  .row:hover .row__title {
+    transform: none;
   }
 
-  .stage {
-    height: 300px;
-  }
-}
-
-@media (max-width: 660px) {
-  .masthead__nav {
-    justify-content: flex-start;
-    gap: 22px;
+  .cv:hover {
+    padding-left: 0;
   }
 
-  .masthead__tag {
-    display: none;
+  .step {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .feature__meta {
+    gap: 6px 0;
+    flex-direction: column;
   }
 }
 
 @media (max-width: 560px) {
-  .facts,
   .contacts,
   .stack__grid,
   .stats,
   .caps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fact {
+    padding-right: 10px;
+  }
+
+  /* Value over label — side by side these squeeze to two words a line. */
+  .row__stat {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+  }
+
+  .row__stat-k {
+    text-align: left;
+  }
+
+  .contact-item__v--row {
+    gap: 12px;
+  }
+
+  .contact-item__mail {
+    word-break: break-word;
+  }
+
+  .footer__row {
+    gap: 10px 20px;
+  }
+
+  .grid-wash {
+    background-size: 48px 48px;
+  }
+}
+
+/* A phone on its side: ~390px of height, most of it spent on the masthead and
+   one line of display type unless the scale comes down. */
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .hero {
+    min-height: 0;
+    padding-top: calc(var(--nav-h) + 28px);
+    padding-bottom: 28px;
+  }
+
+  .hero__title {
+    font-size: clamp(38px, 5.4vw, 62px);
+  }
+
+  .hero__lede {
+    margin-top: 18px;
+  }
+
+  .hero__actions {
+    margin-top: 20px;
+  }
+
+  .stage {
+    height: 240px;
+  }
+
+  .masthead__nav {
+    padding-block: 20px;
+  }
+
+  .masthead__link {
+    padding-block: 12px;
+    font-size: clamp(20px, 3.6vw, 28px);
+  }
+
+  .masthead__cta {
+    margin-top: 16px;
+    padding-block: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .facts {
     grid-template-columns: minmax(0, 1fr);
   }
 

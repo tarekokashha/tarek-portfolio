@@ -93,16 +93,40 @@ const head = () => `<meta charset="utf-8">
 
 /* ------------------------------------------------------------------ chrome */
 
-const masthead = () => `<header class="masthead">
+const masthead = () => `<header class="masthead" data-masthead>
   <a class="masthead__logo" href="#top">
     <span class="masthead__name">${esc(site.name)}</span>
     <span class="masthead__tag">R&amp;A Eng</span>
   </a>
-  <nav class="masthead__nav" aria-label="Sections">
-    ${nav
-      .map((n) => `<a class="masthead__link" href="#${n.id}">${esc(n.label)}</a>`)
-      .join('\n    ')}
-    <a class="masthead__cta" href="#contact"><span class="dot dot--sm"></span>Contact</a>
+
+  <button class="burger" type="button" data-menu-btn aria-controls="site-nav" aria-expanded="false">
+    <span class="burger__label">Menu</span>
+    <span class="burger__box" aria-hidden="true">
+      <span class="burger__bar"></span>
+      <span class="burger__bar"></span>
+    </span>
+  </button>
+
+  <nav class="masthead__nav" id="site-nav" aria-label="Sections" data-menu>
+    <div class="masthead__links">
+      ${nav
+        .map(
+          (n, i) =>
+            `<a class="masthead__link" href="#${n.id}"><span class="masthead__link-n" aria-hidden="true">0${
+              i + 1
+            }</span><span class="masthead__link-t">${esc(
+              n.label
+            )}</span><span class="masthead__link-a" aria-hidden="true">→</span></a>`
+        )
+        .join('\n      ')}
+      <a class="masthead__cta" href="#contact"><span class="dot dot--sm"></span>Contact</a>
+    </div>
+
+    <div class="masthead__foot" aria-hidden="true">
+      <span class="masthead__foot-k">Direct</span>
+      <span class="masthead__foot-v">${esc(site.email)}</span>
+      <span class="masthead__foot-v">${esc(site.phone)}</span>
+    </div>
   </nav>
 </header>`;
 
@@ -145,7 +169,12 @@ const heroSection = () => `<section class="hero" id="top">
       <div class="stage__corner stage__corner--tr"></div>
       <div class="stage__corner stage__corner--bl"></div>
       <div class="stage__corner stage__corner--br"></div>
-      <div class="stage__label">UR5e · 6-DOF<br>MoveIt 2 / CCD solver<br>Move cursor · click to grip</div>
+      <div class="stage__label">
+        <span class="stage__line">UR5e · 6-DOF</span>
+        <span class="stage__line stage__line--spec">MoveIt 2 / CCD solver</span>
+        <span class="stage__line stage__hint stage__hint--pointer">Move cursor · click to grip</span>
+        <span class="stage__line stage__hint stage__hint--touch">Drag to aim · tap to grip</span>
+      </div>
       <div class="stage__telemetry" data-telemetry aria-hidden="true">J1 +000.0°
 J2 +000.0°
 J3 +000.0°
@@ -475,6 +504,9 @@ const contactSection = () => `<section class="contact" id="contact">
         <div class="contact-item__v contact-item__v--row">
           <a class="contact-item__mail" href="mailto:${esc(site.email)}">${esc(
   site.email
+).replace(
+  '@',
+  '<wbr>@'
 )}</a>
           <button class="copy" type="button" data-copy="${esc(
             site.email

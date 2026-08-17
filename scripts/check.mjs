@@ -53,7 +53,12 @@ const server = http.createServer(async (req, res) => {
 await new Promise((r) => server.listen(0, r));
 const base = `http://localhost:${server.address().port}`;
 
-const browser = await chromium.launch();
+// PLAYWRIGHT_CHROMIUM lets a sandbox point at a preinstalled binary instead
+// of the revision this Playwright build would download.
+const launchOpts = process.env.PLAYWRIGHT_CHROMIUM
+  ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM }
+  : {};
+const browser = await chromium.launch(launchOpts);
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 
 const consoleErrors = [];
@@ -237,6 +242,104 @@ for (const [name, width, height] of viewports) {
   else bad('reduced-motion — arm canvas is blank');
 
   if (errs.length) bad('reduced-motion page errors: ' + errs.join(', '));
+  await ctx.close();
+}
+
+/* ------------------------------------------------------------------ mobile
+   A phone has no hover and no keyboard: the nav has to open, trap, close and
+   release the page, every control has to be thumb-sized, and an anchored jump
+   has to clear the fixed masthead. */
+
+for (const [label, width, height] of [
+  ['phone', 390, 844],
+  ['small phone', 320, 700],
+  ['landscape', 844, 390],
+]) {
+  const ctx = await browser.newContext({
+    viewport: { width, height },
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 2,
+  });
+  const p = await ctx.newPage();
+  const errs = [];
+  p.on('pageerror', (e) => errs.push(String(e)));
+  await p.goto(base + '/', { waitUntil: 'networkidle' });
+  await p.waitForTimeout(900);
+
+  // Anything under 44px on its longest edge is a miss waiting to happen.
+  // .skip only exists while focused and .copy carries an ::after hit area.
+  const small = await p.$$eval('a,button', (els) =>
+    els
+      .filter((e) => {
+        if (e.classList.contains('skip') || e.classList.contains('copy')) return false;
+        const r = e.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && r.height < 44;
+      })
+      .map((e) => (e.className || e.tagName) + ' — ' + Math.round(e.getBoundingClientRect().height) + 'px')
+  );
+  if (small.length === 0) ok(`${label} — every control clears a 44px touch target`);
+  else bad(`${label} — controls under 44px: ${small.join(', ')}`);
+
+  const burgerVisible = await p.$eval('[data-menu-btn]', (b) => getComputedStyle(b).display !== 'none');
+  const wantsBurger = width <= 900;
+  if (burgerVisible === wantsBurger) {
+    ok(`${label} — ${wantsBurger ? 'burger' : 'inline nav'} is the one on show`);
+  } else {
+    bad(`${label} — burger ${burgerVisible ? 'visible' : 'hidden'} at ${width}px`);
+  }
+
+  if (wantsBurger) {
+    // Closed, the panel must be out of the tab order, not merely transparent.
+    const hidden = await p.$eval('[data-menu]', (n) => getComputedStyle(n).visibility === 'hidden');
+    if (hidden) ok(`${label} — closed menu is out of the tab order`);
+    else bad(`${label} — closed menu is still focusable`);
+
+    await p.evaluate(() => window.scrollTo(0, 1500));
+    await p.waitForTimeout(200);
+    await p.click('[data-menu-btn]');
+    await p.waitForTimeout(500);
+
+    const open = await p.evaluate(() => ({
+      expanded: document.querySelector('[data-menu-btn]').getAttribute('aria-expanded'),
+      // The panel has to actually cover the screen, not collapse to a strip.
+      h: Math.round(document.querySelector('[data-menu]').getBoundingClientRect().height),
+      locked: document.documentElement.classList.contains('is-locked'),
+      vh: window.innerHeight,
+    }));
+    if (open.expanded === 'true' && open.h > open.vh * 0.6) {
+      ok(`${label} — menu opens full height (${open.h}px)`);
+    } else {
+      bad(`${label} — menu opened to ${open.h}px with aria-expanded=${open.expanded}`);
+    }
+    if (open.locked) ok(`${label} — page behind the menu is locked`);
+    else bad(`${label} — page still scrolls behind the menu`);
+
+    // Following a link has to close the panel, unlock the page, and land the
+    // section clear of the masthead rather than under it.
+    await p.click('.masthead__link[href="#about"]');
+    await p.waitForTimeout(900);
+    const after = await p.evaluate(() => ({
+      expanded: document.querySelector('[data-menu-btn]').getAttribute('aria-expanded'),
+      locked: document.documentElement.classList.contains('is-locked'),
+      top: Math.round(document.getElementById('about').getBoundingClientRect().top),
+      navH: Math.round(
+        document.querySelector('[data-masthead]').getBoundingClientRect().height
+      ),
+    }));
+    if (after.expanded === 'false' && !after.locked) ok(`${label} — link closes and unlocks`);
+    else bad(`${label} — after a link: expanded=${after.expanded} locked=${after.locked}`);
+    if (after.top >= after.navH) ok(`${label} — #about lands clear of the masthead`);
+    else bad(`${label} — #about lands ${after.navH - after.top}px under the masthead`);
+  }
+
+  const overflow = await p.evaluate(
+    () => document.documentElement.scrollWidth - document.documentElement.clientWidth
+  );
+  if (overflow <= 1) ok(`${label} — no horizontal overflow with touch emulation`);
+  else bad(`${label} — overflows by ${overflow}px`);
+
+  if (errs.length) bad(`${label} page errors: ` + errs.join(', '));
   await ctx.close();
 }
 

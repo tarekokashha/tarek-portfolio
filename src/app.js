@@ -23,6 +23,101 @@
     );
   };
 
+  /* --------------------------------------------------------- Masthead height
+     Anchored jumps and the hero's top padding both key off the real height of
+     the fixed masthead, which changes with the breakpoint and the safe area. */
+
+  function trackNavHeight() {
+    var bar = $('[data-masthead]');
+    if (!bar) return;
+    var apply = function () {
+      var h = Math.round(bar.getBoundingClientRect().height);
+      if (h > 0) document.documentElement.style.setProperty('--nav-h', h + 'px');
+    };
+    apply();
+    if ('ResizeObserver' in window) new ResizeObserver(apply).observe(bar);
+    else window.addEventListener('resize', apply);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(apply);
+  }
+
+  /* ------------------------------------------------------------ Mobile menu */
+
+  function setupMenu() {
+    var btn = $('[data-menu-btn]');
+    var panel = $('[data-menu]');
+    if (!btn || !panel) return;
+
+    var root = document.documentElement;
+    var open = false;
+    var scrollY = 0;
+
+    var setOpen = function (next) {
+      if (next === open) return;
+      open = next;
+      root.classList.toggle('is-menu', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      $('.burger__label', btn).textContent = open ? 'Close' : 'Menu';
+
+      if (open) {
+        // Lock the page where it stands. position:fixed on <body> would
+        // reset the scroll position on iOS, so hold it on the element.
+        scrollY = window.scrollY;
+        root.classList.add('is-locked');
+        document.body.style.top = -scrollY + 'px';
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+      } else {
+        root.classList.remove('is-locked');
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollY);
+      }
+    };
+
+    btn.addEventListener('click', function () {
+      setOpen(!open);
+    });
+
+    // Any link inside the panel navigates, so the panel must get out of the
+    // way first — and the scroll lock has to lift before the hash jump.
+    $$('a', panel).forEach(function (a) {
+      a.addEventListener('click', function () {
+        setOpen(false);
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && open) {
+        setOpen(false);
+        btn.focus();
+      }
+    });
+
+    // Trap Tab between the burger and the panel while they own the screen.
+    document.addEventListener('keydown', function (e) {
+      if (!open || e.key !== 'Tab') return;
+      var items = [btn].concat($$('a', panel));
+      var first = items[0];
+      var last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    // Rotating to landscape can cross the breakpoint and strand the lock.
+    var mq = window.matchMedia('(min-width: 901px)');
+    var onChange = function (e) {
+      if (e.matches) setOpen(false);
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
+
   /* ------------------------------------------------------------------ Clock */
 
   function startClock() {
@@ -271,6 +366,10 @@
     }
     if (reduced) return;
 
+    // On a phone the hero is taller than the viewport, so fading it against
+    // scroll would dim copy that is still being read. Parallax is a
+    // wide-viewport effect only.
+    var parallaxMq = window.matchMedia('(min-width: 901px)');
     var hero = $('[data-hero]');
     var stage = $('[data-stage]');
     var ready = false;
@@ -291,7 +390,28 @@
     var vel = 0;
     var marqX = 0;
 
+    var wide = parallaxMq.matches;
+    var onMq = function (e) {
+      wide = e.matches;
+      if (!wide) {
+        // Hand the elements back to the stylesheet untransformed.
+        [hero, stage].forEach(function (el) {
+          if (!el) return;
+          el.style.transform = '';
+          el.style.opacity = '';
+        });
+      }
+    };
+    if (parallaxMq.addEventListener) parallaxMq.addEventListener('change', onMq);
+    else if (parallaxMq.addListener) parallaxMq.addListener(onMq);
+
     var tick = function () {
+      // Nothing here is worth a frame while the tab is in the background.
+      if (document.hidden) {
+        setTimeout(tick, 400);
+        return;
+      }
+
       var y = window.scrollY;
       vel = vel * 0.82 + (y - last) * 0.18;
       last = y;
@@ -307,7 +427,7 @@
         }
       }
 
-      if (ready) {
+      if (ready && wide) {
         var p = Math.max(0, Math.min(1, y / (window.innerHeight * 0.9)));
         if (hero) {
           hero.style.transform = 'translate3d(0,' + (p * -70).toFixed(1) + 'px,0)';
@@ -425,12 +545,31 @@
       );
       window.addEventListener(
         'pointerdown',
-        function () {
+        function (e) {
+          // On touch there is no hover, so the tap itself has to aim: without
+          // this the arm would only ever fire the grip pulse at its idle path.
+          var r = cv.getBoundingClientRect();
+          if (r.width > 0) {
+            mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
+            lastMove = performance.now();
+          }
           grip = 1;
           pulse = 1;
         },
         { passive: true }
       );
+    }
+
+    // A canvas repainting at 60 fps behind three screens of scroll is pure
+    // battery burn on a phone. Idle it whenever it is not on screen.
+    var onScreen = true;
+    if (hasIO) {
+      new IntersectionObserver(
+        function (entries) {
+          onScreen = entries[0].isIntersecting;
+        },
+        { rootMargin: '120px' }
+      ).observe(cv);
     }
 
     // Forward kinematics: joint angles are cumulative along the chain.
@@ -488,6 +627,15 @@
     };
 
     draw = function () {
+      // The loop keeps running so there is only ever one of it — it just
+      // stops doing work, and costs a wake-up every third of a second.
+      if (!reduced && (!onScreen || document.hidden)) {
+        setTimeout(function () {
+          requestAnimationFrame(draw);
+        }, 300);
+        return;
+      }
+
       t += 0.01;
       ctx.clearRect(0, 0, W, H);
       if (W < 10 || H < 10) {
@@ -657,6 +805,8 @@
   /* -------------------------------------------------------------- Bootstrap */
 
   function init() {
+    trackNavHeight();
+    setupMenu();
     startClock();
     setupReveal();
     setupWipes();

@@ -44,6 +44,13 @@
         { "key": "Cache-Control", "value": "public, max-age=86400" },
         { "key": "Content-Disposition", "value": "inline; filename=\"Tarek-Okasha-CV.pdf\"" }
       ]
+    },
+    {
+      "source": "/Tarek-Okasha-CV-Software\\.pdf",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" },
+        { "key": "Content-Disposition", "value": "inline; filename=\"Tarek-Okasha-CV-Software.pdf\"" }
+      ]
     }
   ],
   "redirects": [

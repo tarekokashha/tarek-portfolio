@@ -1,0 +1,413 @@
+/*
+ * CV stylesheet. A4, one page, one text column so parsers read it top to bottom.
+ * Nothing bleeds to the paper edge, so it prints cleanly on an office printer.
+ */
+
+@page { size: A4; margin: 0; }
+
+:root {
+  --ink: #0e0e0f;
+  --text: #24231f;
+  --meta: #5d5a55;
+  --line: #d6d2c9;
+  --bone: #f4f1eb;
+  --ac: #ff4a1c;
+  --ac-ink: #b32a05;
+
+  --sans: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+  --display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --mono: 'Azeret Mono', ui-monospace, Menlo, monospace;
+
+  --body: 8.4pt;
+  --lead: 1.37;
+
+  /* The build raises --k until the page is full, so the sheet always ends at the bottom margin. */
+  --k: 1;
+  --gap-section: calc(6.6pt * var(--k));
+  --gap-entry: calc(4.2pt * var(--k));
+}
+
+.theme-software {
+  --ac: #2f55ff;
+  --ac-ink: #1b3bd0;
+  --body: 8.6pt;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  font-family: var(--sans);
+  font-size: var(--body);
+  line-height: var(--lead);
+  color: var(--text);
+  font-feature-settings: 'kern', 'liga', 'calt';
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+strong { font-weight: 600; color: var(--ink); }
+
+.page {
+  width: 210mm;
+  height: 297mm;
+  padding: 10.5mm 13mm 8mm;
+  overflow: hidden;
+}
+
+/* ------------------------------ header ------------------------------ */
+
+.head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 10mm;
+  align-items: start;
+}
+
+.head__bar {
+  width: 22mm;
+  height: 2.4pt;
+  background: var(--ac);
+  margin-bottom: 6.5pt;
+}
+
+.name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 31pt;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  word-spacing: 0.03em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.role {
+  margin-top: 5.5pt;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 11.6pt;
+  line-height: 1.2;
+  letter-spacing: 0;
+  word-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.role__note {
+  font-weight: 500;
+  color: var(--ac-ink);
+}
+
+.role__sep {
+  display: inline-block;
+  width: 3.2pt;
+  height: 3.2pt;
+  background: var(--ac);
+  margin: 0 6pt 2pt;
+}
+
+.summary {
+  margin-top: calc(5.5pt * var(--k));
+  font-size: calc(var(--body) + 0.4pt);
+  line-height: 1.42;
+  color: var(--text);
+}
+
+.scan {
+  display: grid;
+  grid-template-columns: auto 19.5mm;
+  column-gap: 7pt;
+  align-items: end;
+  padding-top: 8.9pt;
+}
+
+.scan__qr { width: 19.5mm; height: 19.5mm; }
+.scan__qr svg { display: block; width: 100%; height: 100%; shape-rendering: crispEdges; }
+
+.scan__text {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 5.9pt;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--meta);
+}
+
+.scan__text b {
+  display: block;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.scan__url {
+  display: block;
+  margin-top: 2.5pt;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 6.2pt;
+  color: var(--ac-ink);
+}
+
+/* --------------------------- contact fields -------------------------- */
+
+.fields {
+  display: flex;
+  justify-content: space-between;
+  gap: 6pt;
+  margin-top: calc(6pt * var(--k));
+  padding: 4.6pt 0 4.8pt;
+  border-top: 0.9pt solid var(--ink);
+}
+
+.field__k {
+  font-family: var(--mono);
+  font-size: 5.6pt;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--meta);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.field__v {
+  font-size: 7.9pt;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+  white-space: nowrap;
+}
+
+/* ----------------------------- proof strip --------------------------- */
+
+.proof {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--bone);
+  border-top: 0.5pt solid var(--line);
+  border-bottom: 0.5pt solid var(--line);
+}
+
+.proof__cell {
+  padding: 5.6pt 8pt 5.6pt;
+  border-left: 0.5pt solid var(--line);
+}
+
+.proof__cell:first-child { border-left: 0; }
+
+.proof__v {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15.5pt;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  word-spacing: 0.04em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.proof__cell:first-child .proof__v { color: var(--ac-ink); }
+
+.proof__k {
+  margin-top: 3pt;
+  font-size: 7.1pt;
+  line-height: 1.34;
+  color: var(--meta);
+}
+
+/* ------------------------------ sections ----------------------------- */
+
+.section { margin-top: var(--gap-section); }
+
+.section__head {
+  display: flex;
+  align-items: center;
+  gap: 6pt;
+  margin-bottom: calc(3.2pt * var(--k));
+}
+
+.section__head::before {
+  content: '';
+  flex: none;
+  width: 4.4pt;
+  height: 4.4pt;
+  background: var(--ac);
+}
+
+.section__title {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 7.3pt;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.section__head::after {
+  content: '';
+  flex: 1;
+  height: 0.5pt;
+  background: var(--line);
+}
+
+/* ------------------------------- entries ----------------------------- */
+
+.entry + .entry { margin-top: var(--gap-entry); }
+
+.entry__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10pt;
+}
+
+.entry__title {
+  font-size: calc(var(--body) + 0.9pt);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0;
+  word-spacing: 0.05em;
+  color: var(--ink);
+}
+
+.entry__org {
+  font-weight: 400;
+  font-size: var(--body);
+  letter-spacing: 0;
+  word-spacing: 0;
+  color: var(--text);
+}
+
+.entry__org::before {
+  content: '';
+  display: inline-block;
+  width: 0.6pt;
+  height: 7.4pt;
+  margin: 0 6pt -0.8pt 5.5pt;
+  background: #a9a59c;
+}
+
+.entry__date {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 7.1pt;
+  font-weight: 500;
+  color: var(--meta);
+  white-space: nowrap;
+}
+
+.entry__stack {
+  margin-top: 1pt;
+  font-family: var(--mono);
+  font-size: 6.7pt;
+  line-height: 1.45;
+  color: var(--ac-ink);
+}
+
+.bullets {
+  list-style: none;
+  margin-top: calc(1.8pt * var(--k));
+}
+
+.bullets li {
+  padding-left: 9.5pt;
+  background: linear-gradient(var(--ac), var(--ac)) no-repeat 1.2pt 0.56em / 2.9pt 2.9pt;
+}
+
+.bullets li + li { margin-top: calc(1pt * var(--k)); }
+
+/* pipeline diagram */
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3.4pt;
+  margin: calc(3pt * var(--k)) 0 calc(2.6pt * var(--k));
+}
+
+.flow__step {
+  font-family: var(--mono);
+  font-size: 6.6pt;
+  font-weight: 500;
+  line-height: 1;
+  padding: 2.9pt 5.6pt 2.7pt;
+  border: 0.6pt solid var(--ink);
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.flow__step:last-child {
+  background: var(--ink);
+  color: #fff;
+}
+
+.flow__arrow {
+  font-family: var(--sans);
+  font-size: 7.6pt;
+  line-height: 1;
+  color: var(--ac);
+}
+
+/* small project cards */
+
+.cards { margin-top: var(--gap-entry); }
+
+.cards__label {
+  font-size: calc(var(--body) + 0.9pt);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.cards__grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 5pt;
+}
+
+.card {
+  border: 0.5pt solid var(--line);
+  border-top: 1.1pt solid var(--ink);
+  padding: 4pt 6.5pt 4.4pt;
+}
+
+.card__t {
+  font-size: 8.2pt;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.card__d {
+  font-size: 7.5pt;
+  line-height: 1.36;
+  color: var(--meta);
+}
+
+/* skills */
+
+.skills {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 12pt;
+  row-gap: calc(1.2pt * var(--k));
+}
+
+.skills dt {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: calc(var(--body) - 0.2pt);
+  white-space: nowrap;
+}
+
+.skills dd { font-size: calc(var(--body) - 0.1pt); }

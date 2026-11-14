@@ -80,7 +80,7 @@ const head = () => `<meta charset="utf-8">
 <meta property="og:image" content="${site.url}${site.ogImage}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="${esc(site.name)} — ${esc(site.role)}">
+<meta property="og:image:alt" content="${esc(site.name)} · ${esc(site.role)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(site.title)}">
 <meta name="twitter:description" content="${esc(site.ogDescription)}">
@@ -214,7 +214,7 @@ const ticker = () => `<div class="ticker">
 
 const positionSection = () => `<section class="section">
   <div class="split">
-    <div class="split__label" data-reveal><span class="eyebrow__n">01</span> — Position</div>
+    <div class="split__label" data-reveal><span class="eyebrow__n">01</span> · Position</div>
     <div>
       <p class="lead-para" data-reveal>${esc(position.lead)}</p>
       <p class="body-para" data-reveal>${esc(position.body)}</p>
@@ -240,7 +240,7 @@ const capabilitiesSection = () => `<section class="section section--rule" id="ca
   <div class="shell">
     <div class="head head--wide" data-reveal>
       <h2 class="head__title" data-wipe>What I build</h2>
-      <span class="eyebrow"><span class="eyebrow__n">02</span> — Capabilities</span>
+      <span class="eyebrow"><span class="eyebrow__n">02</span> · Capabilities</span>
     </div>
     <div class="caps">
       ${capabilities
@@ -265,7 +265,7 @@ const workRow = (p) => {
     ? ` href="${esc(p.href)}" target="_blank" rel="noopener"`
     : '';
   const label = p.href
-    ? ` aria-label="${esc(p.title)} — opens ${esc(p.client)} in a new tab"`
+    ? ` aria-label="${esc(p.title)}, opens ${esc(p.client)} in a new tab"`
     : '';
   return `<${tag} class="row" data-reveal data-row${link}${label}>
         <span class="row__bar" aria-hidden="true"></span>
@@ -281,7 +281,7 @@ const workRow = (p) => {
                   : ''
               }${
                 p.internal
-                  ? `<span class="row__private">Private — no public deployment</span>`
+                  ? `<span class="row__private">Private, no public deployment</span>`
                   : ''
               }
             </div>
@@ -307,7 +307,7 @@ const workSection = () => `<section class="section section--dark" id="work">
   <div class="work__list">
     <div class="head" data-reveal>
       <h2 class="head__title" data-wipe>Selected work</h2>
-      <span class="eyebrow"><span class="eyebrow__n">03</span> — Seven systems, robots to storefronts</span>
+      <span class="eyebrow"><span class="eyebrow__n">03</span> · Seven systems, robots to storefronts</span>
     </div>
     ${work.map(workRow).join('\n    ')}
     <div class="work__end"></div>
@@ -320,12 +320,12 @@ const brandsSection = () => `<section class="section" id="brands">
   <div class="shell">
     <div class="head head--tight" data-reveal>
       <h2 class="head__title" data-wipe>Brands, end to end</h2>
-      <span class="eyebrow"><span class="eyebrow__n">04</span> — Presence &amp; partnership</span>
+      <span class="eyebrow"><span class="eyebrow__n">04</span> · Presence &amp; brand</span>
     </div>
     <p class="brands__lede" data-reveal>${esc(brands.lede)}</p>
 
     <a class="panel feature" href="${esc(brands.feature.href)}" target="_blank" rel="noopener" data-reveal
-       aria-label="${esc(brands.feature.name)} — opens in a new tab">
+       aria-label="${esc(brands.feature.name)}, opens in a new tab">
       <div class="feature__grid">
         <div>
           <div class="feature__head">
@@ -365,7 +365,7 @@ const brandsSection = () => `<section class="section" id="brands">
       ${brands.collection.items
         .map(
           (c) => `<a class="panel card" href="${esc(c.href)}" target="_blank" rel="noopener" data-reveal
-        aria-label="${esc(c.mark + c.markAccent)} — opens in a new tab">
+        aria-label="${esc(c.mark + c.markAccent)}, opens in a new tab">
         <div class="card__head">
           <span class="card__eyebrow">${esc(c.eyebrow)}</span>
           <span class="panel__arrow card__arrow" aria-hidden="true">↗</span>
@@ -388,7 +388,7 @@ const brandsSection = () => `<section class="section" id="brands">
 const processSection = () => `<section class="section section--rule">
   <div class="split">
     <div class="split__label" data-reveal>
-      <span><span class="eyebrow__n">05</span> — Method</span>
+      <span><span class="eyebrow__n">05</span> · Method</span>
       <h2 class="split__heading" data-wipe>How the work<br>actually goes</h2>
     </div>
     <div class="process">
@@ -413,7 +413,7 @@ const aboutSection = () => `<section class="section section--dark" id="about">
   <div class="shell">
     <div class="head" data-reveal>
       <h2 class="head__title" data-wipe>About</h2>
-      <span class="eyebrow"><span class="eyebrow__n">06</span> — Cairo, Egypt · Working remote</span>
+      <span class="eyebrow"><span class="eyebrow__n">06</span> · Cairo, Egypt · Working remote</span>
     </div>
     <div class="about__grid">
       <div data-reveal>
@@ -491,7 +491,7 @@ const contactSection = () => `<section class="contact" id="contact">
   <div class="contact__inner">
     <div class="contact__eyebrow" data-reveal>
       <span class="dot"></span>
-      <span><span class="eyebrow__n">07</span> — ${esc(contact.eyebrow)}</span>
+      <span><span class="eyebrow__n">07</span> · ${esc(contact.eyebrow)}</span>
     </div>
     <h2 class="contact__title" data-reveal data-wipe>${esc(
       contact.headline
@@ -540,6 +540,14 @@ const contactSection = () => `<section class="contact" id="contact">
       </span>
       <span class="cv__action">Download PDF<span class="cv__arrow" aria-hidden="true">↓</span></span>
     </a>
+
+    <a class="cv" href="${site.cvSoftware}" download="Tarek-Okasha-CV-Software.pdf" data-reveal>
+      <span class="cv__label-group">
+        <span class="cv__label">Résumé</span>
+        <span class="cv__title">${esc(contact.cvSoftwareLabel)}</span>
+      </span>
+      <span class="cv__action">Download PDF<span class="cv__arrow" aria-hidden="true">↓</span></span>
+    </a>
   </div>
 </section>`;
 
@@ -550,8 +558,8 @@ const footer = () => `<footer class="footer">
     <div class="wordmark" data-wordmark aria-hidden="true">TAREK OKASHA</div>
     <h2 class="visually-hidden" hidden>${esc(site.name)}</h2>
     <div class="footer__row">
-      <span>© ${site.year} ${esc(site.name)} — ${esc(site.role)}</span>
-      <span>Cairo, Egypt — Working remote, worldwide</span>
+      <span>© ${site.year} ${esc(site.name)} · ${esc(site.role)}</span>
+      <span>Cairo, Egypt · Working remote, worldwide</span>
       <a href="${site.cv}" download="Tarek-Okasha-CV.pdf">Résumé ↓</a>
       <a href="${esc(site.github)}" target="_blank" rel="noopener">GitHub ↗</a>
       <a href="#top">Back to top ↑</a>

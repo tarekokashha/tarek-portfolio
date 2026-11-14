@@ -6,12 +6,12 @@
 export const site = {
   name: 'Tarek Okasha',
   role: 'Robotics & Automation Engineer',
-  title: 'Tarek Okasha — Robotics & Automation Engineer',
+  title: 'Tarek Okasha · Robotics & Automation Engineer',
   description:
-    'Robotics and automation engineer in Cairo. Six-axis industrial robots, AI automations, full-stack platforms and brand systems — built to run without supervision.',
+    'Robotics and automation engineer in Cairo. Six-axis industrial robots, AI automations, full-stack platforms and brand systems, built to run without supervision.',
   ogDescription:
-    'Six-axis industrial robots, AI automations, full-stack platforms and brand systems — engineered with the discipline of robotics.',
-  url: 'https://tarek-okasha.vercel.app',
+    'Six-axis industrial robots, AI automations, full-stack platforms and brand systems, engineered with the discipline of robotics.',
+  url: 'https://tarek-portfolio-phi.vercel.app',
   locale: 'en',
   email: 'tarekokasha53@gmail.com',
   phone: '+20 155 157 0089',
@@ -21,11 +21,12 @@ export const site = {
   githubHandle: 'tarekokashha',
   linkedinHandle: 'in/tarekokasha',
   cv: '/Tarek-Okasha-CV.pdf',
+  cvSoftware: '/Tarek-Okasha-CV-Software.pdf',
   portrait: '/tarek-okasha.jpg',
   ogImage: '/og.png',
   timezone: 'Africa/Cairo',
-  availability: 'Available for projects',
-  location: 'Cairo, EG — Remote',
+  availability: 'Open to roles and projects',
+  location: 'Cairo, EG · Remote',
   year: 2026,
 };
 
@@ -38,12 +39,12 @@ export const nav = [
 
 export const hero = {
   headline: ['Robotics &', 'Automation', 'Engineer'],
-  lede: 'I build systems that run without supervision — six-axis industrial robots, AI automations, and the custom software companies actually operate on. Engineered with the discipline of robotics, shipped like production software.',
+  lede: 'I build systems that run without supervision: six-axis industrial robots, AI automations, and the custom software companies actually operate on. Engineered with the discipline of robotics, shipped like production software.',
   facts: [
-    { k: 'Status', v: 'Booking Q3 projects' },
-    { k: 'Local time', v: '—:—:—', clock: true },
+    { k: 'Status', v: 'Open to roles · Class of 2027' },
+    { k: 'Local time', v: '--:--:--', clock: true },
     { k: 'Domains', v: 'Robotics · AI · Software' },
-    { k: 'In production', v: '90+ systems · 5 countries' },
+    { k: 'In production', v: 'Clients in 5 countries' },
   ],
 };
 
@@ -60,12 +61,12 @@ export const marquee = [
 ];
 
 export const position = {
-  lead: 'Most engineers pick a side: the machine or the business. I work the whole chain — from a gripper closing on a physical object to the invoice that object generates three systems later.',
-  body: 'That range started with robotics. A six-axis arm is the most honest system you can build — either the gripper closes on the object or it closes on air. There is no hiding a bad abstraction behind a loading spinner. I brought that standard to everything after it: enterprise AI automation, custom ERP and management platforms, and full brand presences for the companies I partner with.',
+  lead: 'Most engineers pick a side: the machine or the business. I work the whole chain, from a gripper closing on a physical object to the invoice that object generates three systems later.',
+  body: 'That range started with robotics. A six-axis arm is the most honest system you can build: either the gripper closes on the object or it closes on air. There is no hiding a bad abstraction behind a loading spinner. I brought that standard to everything after it: enterprise AI automation, custom ERP and management platforms, and full brand presences for the companies I partner with.',
   stats: [
-    { v: '90+', k: 'Automations live<br>in production' },
-    { v: '40h', accent: '+', k: 'Manual work removed<br>every week' },
-    { v: '99.2%', k: 'Reliability across<br>live workflows' },
+    { v: '6M', k: 'Simulated control decisions<br>my safety kernel held through' },
+    { v: '60%', accent: '+', k: 'Manual workload cut<br>for a US client' },
+    { v: '4', k: 'Engineers on the team<br>I lead in Kuwait' },
     { v: '6-DOF', k: 'UR5e under full<br>motion planning' },
   ],
 };
@@ -80,19 +81,19 @@ export const capabilities = [
   {
     n: '02',
     title: 'AI Systems & Automation',
-    body: 'Not fragile scripts. Workflows with error handling, logging, and failure alerts — LLM classification, agentic pipelines, and fine-tuned models that hold up at enterprise volume.',
+    body: 'Not fragile scripts. Workflows with error handling, logging, and failure alerts: LLM classification, agentic pipelines, and fine-tuned models that hold up at enterprise volume.',
     tags: ['n8n', 'Claude', 'Fine-tuning', 'GHL'],
   },
   {
     n: '03',
     title: 'Full-Stack & Custom Software',
-    body: 'Front to back, database to interface — ERP, learning platforms, management systems and internal tools for companies the off-the-shelf market ignores. Multi-tenant, Arabic-first, offline-capable when the site has no signal.',
+    body: 'Front to back, database to interface: ERP, learning platforms, management systems and internal tools for companies the off-the-shelf market ignores. Multi-tenant, Arabic-first, offline-capable when the site has no signal.',
     tags: ['Next.js', 'Postgres', 'Supabase', 'Auth & RBAC'],
   },
   {
     n: '04',
     title: 'Web, WordPress & Brand',
-    body: 'Full presences, not just pages. Storefronts and marketing sites, plus the identity and tone of voice that hold them together — for brands I build once and keep building with.',
+    body: 'Full presences, not just pages. Storefronts and marketing sites, plus the identity and tone of voice that hold them together, for brands I build once and keep building with.',
     tags: ['WordPress', 'WooCommerce', 'Identity', 'Tone of voice'],
   },
 ];
@@ -101,48 +102,48 @@ export const work = [
   {
     idx: '01',
     year: '2026',
-    client: 'Team lead · 3 engineers',
-    internal: true,
-    title: 'Voice-controlled 6-DOF robotic arm',
+    client: 'Independent research · open source',
+    href: 'https://github.com/tarekokashha/mizan-sentinel',
+    live: true,
+    title: 'MIZAN: safety and data integrity for robot learning',
     outcome:
-      'I led three engineers building a real-time voice-to-motion pipeline — Alexa to AWS Lambda to the Claude API to ROS 2 and MoveIt 2. URDF models and inverse kinematics for precise end-effector positioning, validated in RViz before it ever touched hardware.',
-    tags: ['ROS 2', 'MoveIt 2', 'Claude API', 'Raspberry Pi 5'],
+      'A safety kernel that sits between a learned policy and a UR5e, and the adversarial suite that tries to break it. Alongside it, an audit of 400 LeRobot datasets sampled from the Hugging Face Hub, and a UR5e driver composed with the kernel to test the seam between them. Every result here is from simulation, and the repositories say so.',
+    tags: ['Python', 'LeRobot', 'UR5e', 'Safety'],
     stats: [
-      { v: '6-DOF', k: 'Under full motion planning' },
-      { v: 'Voice → motion', k: 'Alexa · Lambda · Claude · ROS 2' },
-      { v: '3 engineers', k: 'Team I led end to end' },
+      { v: '6M decisions', k: '15 attack types, zero escapes in simulation' },
+      { v: '400 datasets', k: 'Audited, about 1 in 30 with a confirmed defect' },
+      { v: '186 tests', k: 'With CI on every push' },
     ],
   },
   {
     idx: '02',
     year: '2026',
-    client: 'Sportix — Remote, UAE',
-    href: 'https://sportix-smis.vercel.app',
-    live: true,
-    title: 'A production medical platform, seven integrated modules',
+    client: 'Team lead · 3 engineers',
+    internal: true,
+    title: 'Voice-controlled 6-DOF robotic arm',
     outcome:
-      'Lead software engineer on the full stack — React, Node.js, Express and MySQL — with role-based access control and complete Arabic RTL for MENA deployment. A Claude-powered reporting layer turns injury, vitals and rehabilitation data into clinical insight the medical staff actually acts on.',
-    tags: ['Lead engineer', 'React · Node · MySQL', 'Claude API', 'Arabic RTL'],
+      'I led three engineers building a real-time voice-to-motion pipeline: Alexa to AWS Lambda to ROS 2 and MoveIt 2. URDF models and inverse kinematics for precise end-effector positioning, validated in RViz on simulated hardware.',
+    tags: ['ROS 2', 'MoveIt 2', 'AWS Lambda', 'Alexa'],
     stats: [
-      { v: '7 modules', k: 'One integrated platform' },
-      { v: 'RBAC', k: 'Role-scoped clinical access' },
-      { v: 'AI reporting', k: 'Insight from injury and vitals data' },
+      { v: '6-DOF', k: 'Under full motion planning' },
+      { v: 'Voice → motion', k: 'Alexa · Lambda · ROS 2 · MoveIt 2' },
+      { v: '3 engineers', k: 'Team I led end to end' },
     ],
   },
   {
     idx: '03',
     year: '2026',
-    client: 'Kawkab Tegara',
-    href: 'https://kawkab-tegara.vercel.app/',
+    client: 'Sportix · Remote, UAE',
+    href: 'https://sportix-smis.vercel.app',
     live: true,
-    title: 'A full learning platform for business and commerce students',
+    title: 'A production medical platform, seven integrated modules',
     outcome:
-      'Two tracks and seven year-stages, each student seeing only their own curriculum. Ordered lesson plans, per-lesson progress, and manual device authorisation so one account stays one student. Arabic-first, right-to-left throughout.',
-    tags: ['Full-stack', 'LMS', 'Arabic / RTL', 'Device auth'],
+      'Lead software engineer on the full stack (React, Node.js, Express and MySQL) with role-based access control and complete Arabic RTL for MENA deployment. A Claude-powered reporting layer turns injury, vitals and rehabilitation data into clinical insight the medical staff actually acts on.',
+    tags: ['Lead engineer', 'React · Node · MySQL', 'Claude API', 'Arabic RTL'],
     stats: [
-      { v: '2 tracks', k: 'Baccalaureate and university' },
-      { v: '7 stages', k: 'Each with its own curriculum' },
-      { v: 'Per-device', k: 'Manual approval blocks sharing' },
+      { v: '7 modules', k: 'One integrated platform' },
+      { v: 'RBAC', k: 'Role-scoped clinical access' },
+      { v: 'AI reporting', k: 'Insight from injury and vitals data' },
     ],
   },
   {
@@ -164,7 +165,7 @@ export const work = [
   {
     idx: '05',
     year: '2025',
-    client: 'Shae Group — United States',
+    client: 'Shae Group · United States',
     internal: true,
     title: 'Automation across CRM, comms, scheduling and payments',
     outcome:
@@ -179,17 +180,17 @@ export const work = [
   {
     idx: '06',
     year: '2025',
-    client: 'Aurevia — Saudi Arabia',
+    client: 'Aurevia · Saudi Arabia',
     href: 'https://aurevia-website-orcin.vercel.app',
     live: true,
     title: 'AI photography studio for a jewelry brand',
     outcome:
-      "A fine-tuned generation pipeline that learned one brand's exact light. Raw phone photo in over WhatsApp, bilingual catalog entry out — inside the hour.",
+      "A fine-tuned generation pipeline that learned one brand's exact light. Raw phone photo in over WhatsApp, bilingual catalog entry out, inside the hour.",
     tags: ['Fine-tuning', 'Computer Vision', 'WhatsApp API', 'Bilingual'],
     stats: [
-      { v: '2 wks → 24h', k: 'Collection production cycle' },
-      { v: '$4,200/mo', k: 'Studio retainer replaced' },
-      { v: '6%', k: 'Rejection rate, down from 40%' },
+      { v: 'Phone photo in', k: 'Sent over WhatsApp' },
+      { v: 'Fine-tuned', k: "On one brand's own lighting" },
+      { v: 'AR / EN', k: 'Bilingual catalog entry out' },
     ],
   },
   {
@@ -199,7 +200,7 @@ export const work = [
     internal: true,
     title: 'PLC-controlled bottle filling and sorting station',
     outcome:
-      'Ladder-logic automation to IEC 61131-3 across filling and sorting — sensors, actuators, conveyors and e-stop safety interlocks. HMI screens for monitoring, diagnostics and manual override, modelled on Siemens workflows.',
+      'Ladder-logic automation to IEC 61131-3 across filling and sorting: sensors, actuators, conveyors and e-stop safety interlocks. HMI screens for monitoring, diagnostics and manual override, modelled on Siemens workflows.',
     tags: ['Ladder logic', 'IEC 61131-3', 'HMI', 'SCADA'],
     stats: [
       { v: 'IEC 61131-3', k: 'Standards-compliant ladder logic' },
@@ -210,12 +211,12 @@ export const work = [
 ];
 
 export const brands = {
-  lede: "Some work isn't a system — it's a whole presence. Identity, voice, storefront, and the software running underneath it, built as one thing rather than four separate briefs.",
+  lede: "Some work isn't a system. It's a whole presence. Identity, voice, storefront, and the software running underneath it, built as one thing rather than four separate briefs.",
   feature: {
     href: 'https://qxmedia.sa/',
-    eyebrow: 'Partnership · Riyadh, KSA',
+    eyebrow: 'Brand and website · Riyadh, KSA',
     name: 'QX Media',
-    body: 'A Saudi marketing house I built the presence for from the ground up — the bilingual Arabic/English site on a custom WordPress theme, the brand system, and the tone of voice running through everything they publish. Not a delivery and a handshake: an ongoing partnership.',
+    body: 'A Saudi marketing house I built the presence for from the ground up: the bilingual Arabic/English site on a custom WordPress theme, the brand system, and the tone of voice running through everything they publish.',
     tags: ['Strategy', 'Brand identity', 'Campaigns', 'Content', 'SEO', 'Social'],
     statsLabel: 'Measured on the live site, October 2026',
     stats: [
@@ -224,12 +225,12 @@ export const brands = {
       { v: '1.6s', k: 'Largest contentful paint, the headline text' },
       { v: '0', k: 'Cumulative layout shift' },
     ],
-    meta: ['Role — Partner', 'Build — WordPress, custom theme', 'Languages — AR / EN'],
+    meta: ['Role: Design and build', 'Build: WordPress, custom theme', 'Languages: AR / EN'],
     note: 'Case study and write-ups: github.com/tarekokashha/qx-media-brand',
   },
   collection: {
     name: 'The 965 Collection',
-    meta: 'Kuwait · three storefronts, one group · Arabic-first',
+    meta: 'Kuwait · three storefronts, one group · built by me, leading a team of four',
     items: [
       {
         href: 'https://965toys.com',
@@ -266,7 +267,7 @@ export const process = [
   {
     n: '01',
     t: 'Diagnose before proposing',
-    d: 'I find where the hours actually go — not where you think they go. Most engagements start with me watching the process run once, end to end, and naming the two or three places worth fixing first.',
+    d: 'I find where the hours actually go, not where you think they go. Most engagements start with me watching the process run once, end to end, and naming the two or three places worth fixing first.',
   },
   {
     n: '02',
@@ -286,23 +287,23 @@ export const process = [
 ];
 
 export const about = {
-  lead: "I'm Tarek — an engineer who ended up responsible for whether things actually work.",
+  lead: "I'm Tarek, an engineer who ended up responsible for whether things actually work.",
   paragraphs: [
     'Robotics and automation is where I trained and where the standard came from. Building a UR5e that hears a spoken command, locates an object with a depth camera, plans a collision-free path and closes a gripper around it teaches you something no web project will: the system either works or it doesn’t, and it tells you immediately.',
-    "Since then I've taken that same instinct into the businesses around me — decouple the layers, define the contract between them, and make the thing observable enough that when it breaks you know exactly where to look. That's how I built a medical platform running on seven integrated modules, a multi-tenant ERP live across two countries, automation that cut a team's manual workload by more than half, and the brands I now partner with.",
-    'The work splits three ways now. Robotics and automation engineering. AI systems and custom software for operators who never found anything off the shelf that fit. And whole brand presences for the companies I partner with — QX Media in Riyadh, and the three 965 storefronts in Kuwait.',
+    "Since then I've taken that same instinct into the businesses around me: decouple the layers, define the contract between them, and make the thing observable enough that when it breaks you know exactly where to look. That's how I built a medical platform running on seven integrated modules, a multi-tenant ERP live across two countries, automation that cut a team's manual workload by more than half, and the storefronts I now lead a team on.",
+    'The work splits three ways now. Robotics and automation engineering. AI systems and custom software for operators who never found anything off the shelf that fit. And whole brand presences: QX Media in Riyadh, and the three 965 storefronts in Kuwait, where I lead a team of four.',
   ],
   quote:
     '“A robot is the most honest system you can build. Either the gripper closes on the object or it closes on air.”',
-  figure: { caption: 'FIG. 01 — T. OKASHA', coords: 'CAIRO / 30.04°N 31.24°E' },
+  figure: { caption: 'FIG. 01 · T. OKASHA', coords: 'CAIRO / 30.04°N 31.24°E' },
   facts: [
     { k: 'Based', v: 'Cairo, Egypt' },
     { k: 'Working', v: 'Remote, worldwide' },
-    { k: 'Languages', v: 'Arabic · English (C2) · German (B1)' },
+    { k: 'Languages', v: 'Arabic · English (C1) · German (A2)' },
     { k: 'Discipline', v: 'Robotics & Automation Engineering' },
   ],
   education: {
-    school: 'German International University — GIU',
+    school: 'German International University · GIU',
     detail: 'B.Sc. Mechanical Engineering, Robotics & Automation · expected June 2027',
     badges: [
       { label: 'Top 0.1% nationally', accent: true },
@@ -361,8 +362,9 @@ export const stack = [
 ];
 
 export const contact = {
-  eyebrow: 'Currently booking projects',
+  eyebrow: 'Open to roles and projects',
   headline: "Let's build something that runs itself",
-  body: "Tell me the process that's costing you the most hours, or the machine you want to move on its own. I'll tell you honestly whether I'm the right person to build it.",
-  cvLabel: 'Full CV — education, roles and technical skills',
+  body: "Hiring for a robotics, automation or software role? I graduate in June 2027 and I'm open to internships and graduate positions. Have a project instead? Tell me the process that's costing you the most hours, or the machine you want to move on its own.",
+  cvLabel: 'Robotics CV · projects, roles and technical skills',
+  cvSoftwareLabel: 'Software CV · production systems and team leadership',
 };

@@ -298,7 +298,7 @@ export const about = {
   facts: [
     { k: 'Based', v: 'Cairo, Egypt' },
     { k: 'Working', v: 'Remote, worldwide' },
-    { k: 'Languages', v: 'Arabic · English (C2) · German (B1)' },
+    { k: 'Languages', v: 'Arabic · English (C1) · German (A2)' },
     { k: 'Discipline', v: 'Robotics & Automation Engineering' },
   ],
   education: {

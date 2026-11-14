@@ -2,7 +2,7 @@
   "name": "tarek-portfolio",
   "version": "1.0.0",
   "private": true,
-  "description": "Portfolio of Tarek Okasha — Robotics & Automation Engineer",
+  "description": "Portfolio of Tarek Okasha · Robotics & Automation Engineer",
   "type": "module",
   "engines": {
     "node": ">=18"

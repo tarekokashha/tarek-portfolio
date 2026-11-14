@@ -174,11 +174,10 @@ export const software = {
         },
         {
           title: 'Freelance Software Engineer',
-          org: 'Egypt & Saudi Arabia · Remote',
+          org: 'QX Media · Riyadh, Remote',
           date: 'Jul 2026 – Oct 2026',
           bullets: [
-            '**Kawkab Tegara:** built an Arabic RTL learning platform on **Next.js, TypeScript, PostgreSQL, and Prisma**, with 2 tracks and 7 year-stages, per-device authorization that stops account sharing, and unit, integration, and end-to-end tests.',
-            '**QX Media (Riyadh):** built the bilingual site on a custom WordPress theme, scoring **100 on mobile Lighthouse** accessibility and SEO with a 1.6s largest contentful paint.',
+            'Built the bilingual Arabic/English site on a custom WordPress theme, scoring **100 on mobile Lighthouse** accessibility and SEO with a 1.6s largest contentful paint.',
           ],
         },
         {

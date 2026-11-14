@@ -30,6 +30,7 @@
 .theme-software {
   --ac: #2f55ff;
   --ac-ink: #1b3bd0;
+  --body: 8.6pt;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

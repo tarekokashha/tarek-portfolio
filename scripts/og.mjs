@@ -192,7 +192,7 @@ p{margin-top:26px;max-width:26ch;font:300 21px/1.45 'Space Grotesk',sans-serif;c
 <div class="wash"></div>
 <div class="frame">
   <div>
-    <div class="eyebrow"><span class="dot"></span>Tarek Okasha — Cairo, EG</div>
+    <div class="eyebrow"><span class="dot"></span>Tarek Okasha · Cairo, EG</div>
     <h1>Robotics &amp;<br>Automation<br>Engineer<span class="stop">.</span></h1>
     <p>Systems that run without supervision.</p>
   </div>
@@ -229,7 +229,7 @@ async function shot(html, width, height, out) {
   await page.screenshot({ path: path.join(STATIC, out), type: 'png' });
   await page.close();
   const { size } = await fs.stat(path.join(STATIC, out));
-  console.log(`  ${out} — ${width}×${height}, ${(size / 1024).toFixed(1)} kB`);
+  console.log(`  ${out} · ${width}×${height}, ${(size / 1024).toFixed(1)} kB`);
 }
 
 console.log('rendering social card and icons…');

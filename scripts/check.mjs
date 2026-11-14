@@ -195,8 +195,8 @@ for (const [name, width, height] of viewports) {
   await p.waitForTimeout(2500); // let the CSS entrance animations finish
 
   const rows = await p.$$eval('.row', (n) => n.length);
-  if (rows === 8) ok('no-JS — all 8 work entries render');
-  else bad(`no-JS — expected 8 work entries, got ${rows}`);
+  if (rows === 7) ok('no-JS — all 7 work entries render');
+  else bad(`no-JS — expected 7 work entries, got ${rows}`);
 
   const stuck = await p.$$eval('*', (els) =>
     els

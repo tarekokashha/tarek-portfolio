@@ -56,7 +56,7 @@ function renderSection(s) {
   const entries = (s.entries || []).map(renderEntry).join('');
   const cards = s.cards
     ? `<div class="cards">
-        <h3 class="cards__label">${esc(s.cards.label)}</h3>
+        ${s.cards.label ? `<h3 class="cards__label">${esc(s.cards.label)}</h3>` : ''}
         <div class="cards__grid">${s.cards.items
           .map((c) => `<div class="card"><div class="card__t">${esc(c.t)}</div><div class="card__d">${esc(c.d)}</div></div>`)
           .join('')}</div>

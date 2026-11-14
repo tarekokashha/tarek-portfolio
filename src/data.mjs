@@ -105,11 +105,11 @@ export const work = [
     internal: true,
     title: 'Voice-controlled 6-DOF robotic arm',
     outcome:
-      'I led three engineers building a real-time voice-to-motion pipeline — Alexa to AWS Lambda to the Claude API to ROS 2 and MoveIt 2. URDF models and inverse kinematics for precise end-effector positioning, validated in RViz before it ever touched hardware.',
-    tags: ['ROS 2', 'MoveIt 2', 'Claude API', 'Raspberry Pi 5'],
+      'I led three engineers building a real-time voice-to-motion pipeline — Alexa to AWS Lambda to ROS 2 and MoveIt 2. URDF models and inverse kinematics for precise end-effector positioning, validated in RViz on simulated hardware.',
+    tags: ['ROS 2', 'MoveIt 2', 'AWS Lambda', 'Alexa'],
     stats: [
       { v: '6-DOF', k: 'Under full motion planning' },
-      { v: 'Voice → motion', k: 'Alexa · Lambda · Claude · ROS 2' },
+      { v: 'Voice → motion', k: 'Alexa · Lambda · ROS 2 · MoveIt 2' },
       { v: '3 engineers', k: 'Team I led end to end' },
     ],
   },

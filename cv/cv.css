@@ -30,7 +30,6 @@
 .theme-software {
   --ac: #2f55ff;
   --ac-ink: #1b3bd0;
-  --body: 8.6pt;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -370,9 +369,9 @@ strong { font-weight: 600; color: var(--ink); }
 
 .cards__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   gap: 5pt;
-  margin-top: calc(2.8pt * var(--k));
 }
 
 .card {

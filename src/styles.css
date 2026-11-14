@@ -1417,9 +1417,13 @@ button {
 }
 
 .figure__img {
+  display: block;
   width: 100%;
+  /* Without this the height attribute on the <img> wins and the 4:5 ratio is ignored. */
+  height: auto;
   aspect-ratio: 4 / 5;
   object-fit: cover;
+  object-position: 50% 22%;
 }
 
 .figure__inner {

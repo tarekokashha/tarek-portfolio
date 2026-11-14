@@ -307,7 +307,7 @@ const workSection = () => `<section class="section section--dark" id="work">
   <div class="work__list">
     <div class="head" data-reveal>
       <h2 class="head__title" data-wipe>Selected work</h2>
-      <span class="eyebrow"><span class="eyebrow__n">03</span> — Seven systems, robots to storefronts</span>
+      <span class="eyebrow"><span class="eyebrow__n">03</span> — Eight systems, robots to storefronts</span>
     </div>
     ${work.map(workRow).join('\n    ')}
     <div class="work__end"></div>
@@ -320,7 +320,7 @@ const brandsSection = () => `<section class="section" id="brands">
   <div class="shell">
     <div class="head head--tight" data-reveal>
       <h2 class="head__title" data-wipe>Brands, end to end</h2>
-      <span class="eyebrow"><span class="eyebrow__n">04</span> — Presence &amp; partnership</span>
+      <span class="eyebrow"><span class="eyebrow__n">04</span> — Presence &amp; brand</span>
     </div>
     <p class="brands__lede" data-reveal>${esc(brands.lede)}</p>
 
@@ -537,6 +537,14 @@ const contactSection = () => `<section class="contact" id="contact">
       <span class="cv__label-group">
         <span class="cv__label">Résumé</span>
         <span class="cv__title">${esc(contact.cvLabel)}</span>
+      </span>
+      <span class="cv__action">Download PDF<span class="cv__arrow" aria-hidden="true">↓</span></span>
+    </a>
+
+    <a class="cv" href="${site.cvSoftware}" download="Tarek-Okasha-CV-Software.pdf" data-reveal>
+      <span class="cv__label-group">
+        <span class="cv__label">Résumé</span>
+        <span class="cv__title">${esc(contact.cvSoftwareLabel)}</span>
       </span>
       <span class="cv__action">Download PDF<span class="cv__arrow" aria-hidden="true">↓</span></span>
     </a>

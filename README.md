@@ -27,8 +27,9 @@ Copy lives in `cv/content.mjs`, layout in `cv/cv.css`.
 npm run cv
 ```
 
-That writes `cv/Tarek_Okasha_CV_Robotics.pdf` and `cv/Tarek_Okasha_CV_Software.pdf`, and copies the
-robotics one to `static/Tarek-Okasha-CV.pdf`, which is the file the site offers for download.
+That writes `cv/Tarek_Okasha_CV_Robotics.pdf` and `cv/Tarek_Okasha_CV_Software.pdf`, and copies both
+into `static/` as `Tarek-Okasha-CV.pdf` (robotics) and `Tarek-Okasha-CV-Software.pdf`, the two files
+the site offers for download.
 It needs Playwright with Chromium, and it fails if either CV runs past one page.
 
 ## Deploying

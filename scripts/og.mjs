@@ -200,7 +200,7 @@ p{margin-top:26px;max-width:26ch;font:300 21px/1.45 'Space Grotesk',sans-serif;c
 </div>
 <div class="strip">
   <span>ROS 2 / MoveIt 2</span><span>AI Automation</span><span>Full-Stack</span>
-  <span>90+ systems live</span>
+  <span>Open to roles</span>
 </div>
 </body></html>`;
 }

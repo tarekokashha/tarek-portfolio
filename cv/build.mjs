@@ -181,8 +181,9 @@ for (const v of variants) {
 
 await browser.close();
 
-// The site serves the robotics CV as its downloadable resume.
+// The site offers both CVs for download; the robotics one keeps the original URL.
 await fs.copyFile(path.join(here, 'Tarek_Okasha_CV_Robotics.pdf'), path.join(root, 'static', 'Tarek-Okasha-CV.pdf'));
+await fs.copyFile(path.join(here, 'Tarek_Okasha_CV_Software.pdf'), path.join(root, 'static', 'Tarek-Okasha-CV-Software.pdf'));
 
 if (failed) {
   console.error('A CV is longer than one page. Trim content or tighten cv.css.');
